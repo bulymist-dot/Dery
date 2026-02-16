@@ -47,6 +47,7 @@
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
+            border: 1px solid var(--cyan);
         }
 
         .data-label {
@@ -61,54 +62,20 @@
             color: #fff;
         }
 
-        .locked {
-            filter: blur(5px);
-            user-select: none;
+        .unlocked {
+            color: var(--cyan);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
         }
 
-        .payment-section {
-            border-top: 1px solid #333;
-            padding-top: 20px;
-        }
-
-        .alert-box {
-            background: rgba(255, 196, 0, 0.1);
-            border: 1px solid #ffc400;
-            color: #ffc400;
+        .success-box {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            color: #00ff88;
             padding: 10px;
             font-size: 0.9rem;
             border-radius: 5px;
             margin-bottom: 15px;
-        }
-
-        .pix-box {
-            background: #000;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: monospace;
-            font-size: 0.7rem;
-            word-break: break-all;
-            margin-bottom: 15px;
-            border: 1px dashed var(--cyan);
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-copy {
-            background: var(--cyan);
-            color: #000;
-        }
-
-        .btn-copy:active {
-            transform: scale(0.98);
         }
 
         .footer-note {
@@ -123,50 +90,32 @@
 <div class="container">
     <div class="header-logo">D'ARC CODEX v4.0</div>
 
+    <div class="success-box">
+        PAGAMENTO CONFIRMADO: Acesso liberado com sucesso.
+    </div>
+
     <div class="profile-box">
         <div class="data-label">Alvo Identificado:</div>
         <div class="data-value">@nailly_051</div>
         
-        <div class="data-label">E-mail de Acesso:</div>
-        <div class="data-value">nai*******05@gmail.com</div>
+        <div class="data-label">E-mail de Acesso Liberado:</div>
+        <div class="data-value unlocked">naillygostosa05@gmail.com</div>
 
-        <div class="data-label">Senha Criptografada:</div>
-        <div class="data-value locked">••••••••••••</div>
+        <div class="data-label">Senha Descriptografada:</div>
+        <div class="data-value unlocked">meuamorjunior47</div>
     </div>
 
-    <div class="payment-section">
-        <div class="alert-box">
-            SISTEMA BLOQUEADO: Para liberar a chave de descriptografia e o acesso completo, é necessário validar a taxa de processamento.
-        </div>
-        
-        <p style="font-size: 0.9rem;">Valor da Liberação: <b>R$ 50,00</b></p>
-        
-        <div class="data-label">Chave Pix Copia e Cola:</div>
-        <div class="pix-box" id="pixCode">c0b4e994-9bad-4e05-9cfb-d241a4836b3f</div>
-        
-        <button class="btn-copy" onclick="copyPix()">COPIAR CHAVE PIX</button>
-        
-        <p style="font-size: 0.8rem; margin-top: 15px; color: #bbb;">
-            Após o pagamento, o sistema identificará o CPF do pagador e liberará o acesso automaticamente em até 2 minutos.
-        </p>
+    <div style="font-size: 0.8rem; color: #bbb;">
+        Todos os logs de atividade e mensagens privadas estão disponíveis no diretório principal.
     </div>
 
     <div class="footer-note">
-        Conexão Segura via End-to-End Encryption
+        Conexão Estabilizada - Terminal de Acesso
     </div>
 </div>
 
 <script>
-    function copyPix() {
-        const pixText = document.getElementById('pixCode').innerText;
-        navigator.clipboard.writeText(pixText).then(() => {
-            alert("Chave Pix copiada! Abra o app do seu banco, escolha 'Pix Copia e Cola' e cole o código para finalizar.");
-        });
-    }
-
-    // Simulação de sistema "pensando"
-    console.log("Iniciando varredura D'ARC CODEX...");
-    console.log("Payload injetado em instagram.com/nailly_051");
+    console.log("Acesso concedido. Decriptação completa.");
 </script>
 
 </body>
