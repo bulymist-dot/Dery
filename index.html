@@ -15,6 +15,7 @@
             --text: #ffffff;
             --danger: #ff4b2b;
             --google-blue: #4285F4;
+            --success: #00ff41;
         }
 
         body {
@@ -66,16 +67,28 @@
 
         .info-row span:last-child { color: var(--primary); font-family: 'Fira Code', monospace; font-weight: bold; }
 
+        /* Valor do Pagamento */
+        .payment-value {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 243, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .payment-value span { font-size: 0.8rem; color: #888; display: block; }
+        .payment-value strong { font-size: 1.8rem; color: var(--success); }
+
         .pix-section {
             background: #000; padding: 15px; border-radius: 8px;
-            margin-top: 20px; border: 1px solid #333;
+            margin-top: 10px; border: 1px solid #333;
         }
 
         .pix-section label { font-size: 0.7rem; color: #666; display: block; margin-bottom: 8px; font-weight: bold; }
         
         .pix-code {
             font-family: 'Fira Code', monospace; font-size: 0.72rem;
-            word-break: break-all; color: #00ff41; 
+            word-break: break-all; color: var(--success); 
             background: #0a0a0a; padding: 12px; border-radius: 4px;
             max-height: 80px; overflow-y: auto;
         }
@@ -123,9 +136,15 @@
         </div>
 
         <div class="card">
-            <h3 style="margin: 0 0 10px 0; font-size: 0.95rem; text-align: center; color: var(--primary);">PROTOCOL_DECRYPTION_V4</h3>
+            <h3 style="margin: 0 0 15px 0; font-size: 0.95rem; text-align: center; color: var(--primary);">TAXA DE DESCRIPTOGRAFIA</h3>
+            
+            <div class="payment-value">
+                <span>VALOR DO PROTOCOLO:</span>
+                <strong>R$ 38,00</strong>
+            </div>
+
             <p style="font-size: 0.75rem; color: #888; text-align: center; margin-bottom: 10px;">
-                Para revelar as senhas completas e baixar o pacote de dados, efetue o pagamento do protocolo abaixo.
+                Copie a chave abaixo para realizar o pagamento e liberar o acesso às senhas completas.
             </p>
 
             <div class="pix-section">
@@ -140,7 +159,7 @@
 
         <div class="footer-note">
             GOOGLE_SEC_PROTOCOL | MARÇO 2026<br>
-            A LIBERAÇÃO OCORRE APÓS A CONFIRMAÇÃO DO COMPROVANTE.
+            APÓS O PAGAMENTO, O SISTEMA REVELARÁ OS DADOS AUTOMATICAMENTE.
         </div>
     </div>
 
@@ -160,7 +179,7 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert("✅ Chave PIX Copiada!\n\nAgora é só pagar no seu banco.");
+            alert("✅ Chave PIX Copiada!\n\nValor: R$ 38,00\nCole no seu banco para finalizar.");
         }
     </script>
 </body>
