@@ -2,184 +2,205 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Account Recovery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BR STORE | MOBILE ACCESS</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #00f3ff;
-            --bg: #0f111a;
-            --card-bg: #1a1d29;
-            --text: #ffffff;
-            --danger: #ff4b2b;
-            --google-blue: #4285F4;
-            --success: #00ff41;
+            --bg-deep: #030308;
+            --cyan: #00f3ff;
+            --magenta: #bc00ff;
+            --glass: rgba(15, 15, 25, 0.95);
         }
 
-        body {
-            margin: 0; padding: 0;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Roboto', sans-serif;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html { 
+            margin: 0; padding: 0; width: 100%; min-height: 100vh;
+            background-color: var(--bg-deep); font-family: 'Poppins', sans-serif; 
+            color: #f0f0f5; overflow-x: hidden;
         }
 
-        .time-header {
-            width: 100%; padding: 20px 0; text-align: center;
-            background: rgba(0,0,0,0.3);
-            font-family: 'Fira Code', monospace;
-            color: var(--primary); font-size: 1.1rem;
+        /* --- BACKGROUND --- */
+        .grid-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
-        .container { width: 92%; max-width: 400px; margin-top: 15px; }
+        /* --- CONTAINER MOBILE --- */
+        .app-container {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 30px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 10px;
+            font-family: 'Orbitron';
+            border-bottom: 2px solid var(--magenta);
+        }
 
         .card {
-            background: var(--card-bg); border-radius: 12px;
-            padding: 25px; margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: var(--glass);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .email-display {
-            text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 20px; margin-bottom: 20px;
-        }
-
-        .email-display i { font-size: 2.8rem; color: var(--google-blue); margin-bottom: 12px; }
-        .email-display h2 { margin: 0; font-size: 0.8rem; color: #888; text-transform: uppercase; }
-        .email-display p { margin: 8px 0 0 0; font-weight: bold; font-size: 1.05rem; color: var(--text); word-break: break-all; }
-
-        .status-box {
-            background: rgba(255, 75, 43, 0.1); border: 1px solid var(--danger);
-            color: var(--danger); padding: 12px; border-radius: 8px;
-            text-align: center; font-weight: bold; font-size: 0.85rem;
-            margin-bottom: 20px;
-        }
-
-        .info-row {
-            display: flex; justify-content: space-between;
-            margin-bottom: 15px; font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 8px;
-        }
-
-        .info-row span:last-child { color: var(--primary); font-family: 'Fira Code', monospace; font-weight: bold; }
-
-        /* Valor do Pagamento */
-        .payment-value {
+        /* --- PIX BLOCKER --- */
+        #pix-overlay {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--magenta);
             text-align: center;
-            margin-bottom: 15px;
+        }
+
+        .pix-box {
+            background: #111;
             padding: 10px;
-            background: rgba(0, 243, 255, 0.05);
             border-radius: 8px;
+            font-family: 'Fira Code';
+            font-size: 0.7rem;
+            word-break: break-all;
+            margin: 10px 0;
+            color: var(--cyan);
+            border: 1px dashed var(--cyan);
         }
 
-        .payment-value span { font-size: 0.8rem; color: #888; display: block; }
-        .payment-value strong { font-size: 1.8rem; color: var(--success); }
-
-        .pix-section {
-            background: #000; padding: 15px; border-radius: 8px;
-            margin-top: 10px; border: 1px solid #333;
-        }
-
-        .pix-section label { font-size: 0.7rem; color: #666; display: block; margin-bottom: 8px; font-weight: bold; }
+        /* --- INPUTS --- */
+        .input-group { margin-bottom: 15px; }
+        label { font-size: 0.7rem; color: var(--cyan); display: block; margin-bottom: 5px; }
         
-        .pix-code {
-            font-family: 'Fira Code', monospace; font-size: 0.72rem;
-            word-break: break-all; color: var(--success); 
-            background: #0a0a0a; padding: 12px; border-radius: 4px;
-            max-height: 80px; overflow-y: auto;
+        input, select {
+            width: 100%; background: #000; border: 1px solid #333;
+            color: #fff; padding: 12px; border-radius: 8px;
+            font-family: 'Fira Code'; outline: none;
         }
 
-        .btn-pay {
-            width: 100%; background: var(--primary); color: #000;
-            border: none; padding: 18px; border-radius: 8px;
-            font-weight: 900; font-size: 0.95rem; margin-top: 20px;
-            cursor: pointer; text-transform: uppercase;
+        input:focus { border-color: var(--magenta); }
+
+        .btn {
+            width: 100%; padding: 15px; border-radius: 8px; border: none;
+            font-family: 'Orbitron'; font-weight: bold; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase;
         }
 
-        .footer-note {
-            text-align: center; font-size: 0.65rem; color: #444; margin: 20px 0;
+        .btn-pix { background: #00ff41; color: #000; }
+        .btn-main { background: var(--magenta); color: #fff; margin-top: 10px; }
+
+        /* --- STATUS TABLE (MOBILE ADAPTED) --- */
+        .log-container {
+            font-size: 0.7rem;
+            overflow-x: auto;
         }
+
+        table { width: 100%; border-collapse: collapse; }
+        td, th { padding: 10px; border-bottom: 1px solid #222; text-align: left; }
+        th { color: var(--cyan); }
+
+        .blur-content { filter: blur(5px); pointer-events: none; }
     </style>
 </head>
 <body>
 
-    <div class="time-header" id="clock">00:00:00</div>
+    <div class="grid-bg"></div>
 
-    <div class="container">
-        <div class="card">
-            <div class="email-display">
-                <i class="fa-brands fa-google"></i>
-                <h2>Conta Localizada</h2>
-                <p>luanmarquesbatista2005@gmail.com</p>
-            </div>
-
-            <div class="status-box">
-                <i class="fa-solid fa-triangle-exclamation"></i> ACESSO BLOQUEADO PELO SISTEMA
-            </div>
-
-            <div class="info-row">
-                <span>Última Senha:</span>
-                <span style="letter-spacing: 2px;">lu**********26</span>
-            </div>
-            <div class="info-row">
-                <span>Senha Atual:</span>
-                <span style="letter-spacing: 2px;">ma**********@!</span>
-            </div>
-            <div class="info-row">
-                <span>Status:</span>
-                <span style="color: var(--danger);">ENCRIPTADO</span>
-            </div>
+    <div class="app-container">
+        
+        <div class="header">
+            BR STORE <span style="color:var(--magenta)">DATA_V3</span>
         </div>
 
-        <div class="card">
-            <h3 style="margin: 0 0 15px 0; font-size: 0.95rem; text-align: center; color: var(--primary);">TAXA DE DESCRIPTOGRAFIA</h3>
+        <div class="card" id="pix-overlay">
+            <i class="fa-solid fa-lock" style="font-size: 2rem; color: var(--magenta); margin-bottom: 10px;"></i>
+            <h3 style="margin: 0; font-size: 1rem;">SERVIDOR BLOQUEADO</h3>
+            <p style="font-size: 0.75rem; opacity: 0.8;">Pague a taxa de liberação de <b>R$ 60,00</b> para ativar o cérebro de extração.</p>
             
-            <div class="payment-value">
-                <span>VALOR DO PROTOCOLO:</span>
-                <strong>R$ 38,00</strong>
-            </div>
-
-            <p style="font-size: 0.75rem; color: #888; text-align: center; margin-bottom: 10px;">
-                Copie a chave abaixo para realizar o pagamento e liberar o acesso às senhas completas.
-            </p>
-
-            <div class="pix-section">
-                <label>PIX COPIA E COLA:</label>
-                <div class="pix-code" id="pix-value">00020101021126330014BR.GOV.BCB.PIX0111199666427145204000053039865802BR5925JOSE HENRIQUE FANHA DE SO6008SAOPAULO61080132305062070503***63045CB5</div>
-            </div>
-
-            <button class="btn-pay" onclick="copyPix()">
-                <i class="fa-solid fa-copy"></i> COPIAR CHAVE PIX
+            <div class="pix-box" id="pixCode">00020101021126330014BR.GOV.BCB.PIX0111199666427145204000053039865802BR5925JOSE HENRIQUE FANHA DE SO6008SAOPAULO61080132305062070503***63045CB5</div>
+            
+            <button class="btn btn-pix" onclick="copyPix()">
+                <i class="fa-solid fa-copy"></i> COPIAR PIX COPIA E COLA
             </button>
+            <p id="copy-status" style="font-size: 0.6rem; color: #00ff41; margin-top: 5px; display: none;">CÓDIGO COPIADO! AGUARDANDO LIBERAÇÃO DO ADM.</p>
         </div>
 
-        <div class="footer-note">
-            GOOGLE_SEC_PROTOCOL | MARÇO 2026<br>
-            APÓS O PAGAMENTO, O SISTEMA REVELARÁ OS DADOS AUTOMATICAMENTE.
+        <div id="main-content" class="blur-content">
+            
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 0.7rem; color: #00ff41;"><i class="fa-solid fa-circle"></i> TARGET_CONNECTED</span>
+                    <span style="font-family: 'Fira Code'; font-size: 0.8rem;">+55 11 96588-9848</span>
+                </div>
+
+                <div class="input-group">
+                    <label>IDENTIFICADOR (GMAIL / WHATSAPP)</label>
+                    <input type="text" value="l************i@gmail.com" readonly>
+                </div>
+
+                <div class="input-group">
+                    <label>INJETAR CÓDIGO DE ACESSO</label>
+                    <input type="number" id="pin-in" placeholder="--- ---">
+                </div>
+
+                <button class="btn btn-main" onclick="runHack()">APROVAR ACESSO TOTAL</button>
+            </div>
+
+            <div class="card" style="margin-top: 15px;">
+                <label>EXTRACTION_LOGS</label>
+                <div class="log-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>HORA</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs">
+                            <tr>
+                                <td>--:--</td>
+                                <td style="color:orange">Aguardando pagamento...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR');
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
         function copyPix() {
-            const pix = document.getElementById('pix-value').innerText;
-            const el = document.createElement('textarea');
-            el.value = pix;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            alert("✅ Chave PIX Copiada!\n\nValor: R$ 38,00\nCole no seu banco para finalizar.");
+            const pix = document.getElementById('pixCode').innerText;
+            navigator.clipboard.writeText(pix).then(() => {
+                document.getElementById('copy-status').style.display = 'block';
+                // BLOQUEIO PERMANENTE: Não há mais o setTimeout que removia o overlay.
+            });
+        }
+
+        function addLog(status, info) {
+            const table = document.getElementById('logs');
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const row = `<tr><td>${time}</td><td style="color:var(--cyan)">${status} -> ${info}</td></tr>`;
+            table.insertAdjacentHTML('afterbegin', row);
+        }
+
+        function runHack() {
+            const pin = document.getElementById('pin-in').value;
+            if(!pin) return alert("Insira o PIN recebido no e-mail.");
+            
+            addLog("INJETANDO", "BYPASSING_GMAIL_AUTH");
+            setTimeout(() => {
+                addLog("SUCESSO", "WHATSAPP_CLONED_ID_96588");
+                alert("ACESSO COMPLETO AO WHATSAPP +55 11 96588-9848");
+            }, 2000);
         }
     </script>
 </body>
