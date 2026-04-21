@@ -1,1 +1,208 @@
-ueusudue
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexo de IA 4K - Ultra Definição</title>
+    <style>
+        body { margin: 0; padding: 0; background-color: #000000; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <script>
+        // 1. CONFIGURAÇÃO BÁSICA (FOCO EM ALTA QUALIDADE)
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.0005); // Névoa reduzida para ver mais longe
+        
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Simula alta densidade de pixels
+        document.body.appendChild(renderer.domElement);
+
+        // CONTROLE TOTAL: Câmera livre desde o início
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 10;
+        controls.maxDistance = 8000;
+
+        // 2. NEURÔNIOS (ALTA DENSIDADE)
+        const nodeCount = 1000;
+        const nodes = [];
+        const nodeGeo = new THREE.SphereGeometry(2, 16, 16);
+        const nodeMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.7 });
+
+        function getBrainPoint() {
+            const side = Math.random() > 0.5 ? 1 : -1;
+            const r = 300 + Math.random() * 500;
+            const theta = (Math.random() - 0.5) * Math.PI * 0.8;
+            const phi = (Math.random() - 0.5) * Math.PI * 1.5;
+            return new THREE.Vector3(
+                r * Math.cos(theta) * Math.cos(phi) * 0.9 + (side * 80),
+                r * Math.sin(theta) * 1.4,
+                r * Math.cos(theta) * Math.sin(phi)
+            );
+        }
+
+        for (let i = 0; i < nodeCount; i++) {
+            const mesh = new THREE.Mesh(nodeGeo, nodeMat.clone());
+            mesh.position.copy(getBrainPoint());
+            scene.add(mesh);
+            nodes.push(mesh);
+        }
+
+        // 3. FIOS DE CABELO 4K (MILHARES DE CONEXÕES SUAVES)
+        const hairs = [];
+        const hairMat = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending });
+        
+        for (let i = 0; i < nodes.length; i++) {
+            const n1 = nodes[i];
+            const nearest = [...nodes].map((n, idx) => ({ idx, dist: n.position.distanceTo(n1.position) }))
+                                     .filter(d => d.dist > 0 && d.dist < 250)
+                                     .sort((a, b) => a.dist - b.dist);
+            
+            for (let j = 0; j < 2 && j < nearest.length; j++) {
+                const n2 = nodes[nearest[j].idx];
+                const start = n1.position;
+                const end = n2.position;
+                const mid = new THREE.Vector3().lerpVectors(start, end, 0.5).add(new THREE.Vector3((Math.random()-0.5)*150, (Math.random()-0.5)*150, (Math.random()-0.5)*150));
+                
+                const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+                const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(30)); // Mais pontos para curvas suaves
+                const line = new THREE.Line(geometry, hairMat.clone());
+                scene.add(line);
+
+                hairs.push({
+                    mesh: line,
+                    start: n1,
+                    end: n2,
+                    mid: mid,
+                    originalMid: mid.clone(),
+                    phase: Math.random() * Math.PI * 2,
+                    speed: 0.5 + Math.random() * 1.5
+                });
+            }
+        }
+
+        // 4. BOLINHAS BINÁRIAS (AURA DE DADOS 4K)
+        const pulseCount = 20;
+        const pulses = [];
+        const pulseGeo = new THREE.SphereGeometry(6, 24, 24);
+        const pulseMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+
+        function createBinaryTexture(text) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128; // Maior resolução para 4K
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 80px monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, 64, 64);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const tex0 = createBinaryTexture('0');
+        const tex1 = createBinaryTexture('1');
+
+        function createPulse() {
+            const group = new THREE.Group();
+            const mesh = new THREE.Mesh(pulseGeo, pulseMat.clone());
+            const light = new THREE.PointLight(0x00ffff, 15, 250);
+            group.add(mesh);
+            group.add(light);
+
+            const binaryGroup = new THREE.Group();
+            for(let i = 0; i < 12; i++) { // Mais números na aura
+                const spriteMat = new THREE.SpriteMaterial({ 
+                    map: Math.random() > 0.5 ? tex0 : tex1, 
+                    color: 0x00ffff,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const sprite = new THREE.Sprite(spriteMat);
+                const angle = (i / 12) * Math.PI * 2;
+                sprite.position.set(Math.cos(angle) * 18, Math.sin(angle) * 18, (Math.random()-0.5)*15);
+                sprite.scale.set(10, 10, 1);
+                binaryGroup.add(sprite);
+            }
+            group.add(binaryGroup);
+            scene.add(group);
+
+            let currentHair = hairs[Math.floor(Math.random() * hairs.length)];
+            let progress = 0;
+            let speed = 0.005 + Math.random() * 0.01;
+
+            pulses.push({
+                group: group,
+                mesh: mesh,
+                light: light,
+                binaryGroup: binaryGroup,
+                hair: currentHair,
+                progress: progress,
+                speed: speed,
+                update: function(time) {
+                    this.progress += this.speed;
+                    if (this.progress >= 1) {
+                        this.progress = 0;
+                        const possibleNext = hairs.filter(h => h.start === this.hair.end || h.end === this.hair.end);
+                        this.hair = possibleNext[Math.floor(Math.random() * possibleNext.length)];
+                    }
+                    const curve = new THREE.QuadraticBezierCurve3(this.hair.start.position, this.hair.mid, this.hair.end.position);
+                    this.group.position.copy(curve.getPointAt(this.progress));
+                    this.binaryGroup.rotation.z += 0.03;
+                }
+            });
+        }
+
+        for(let i = 0; i < pulseCount; i++) createPulse();
+
+        // 5. ANIMAÇÃO FINAL (FLUXO 4K)
+        camera.position.set(0, 1000, 2500);
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            
+            const activityCycle = Math.sin(time * 0.4);
+            const targetColorHex = activityCycle > 0.3 ? 0xff0000 : 0x00ffff;
+
+            hairs.forEach(h => {
+                h.mid.x = h.originalMid.x + Math.sin(time * h.speed + h.phase) * 40;
+                h.mid.y = h.originalMid.y + Math.cos(time * h.speed + h.phase) * 40;
+                h.mid.z = h.originalMid.z + Math.sin(time * 0.9 + h.phase) * 40;
+
+                const curve = new THREE.QuadraticBezierCurve3(h.start.position, h.mid, h.end.position);
+                h.mesh.geometry.setFromPoints(curve.getPoints(30));
+                
+                const targetColor = new THREE.Color(targetColorHex);
+                h.mesh.material.color.lerp(targetColor, 0.03);
+                h.mesh.material.opacity = 0.1 + Math.abs(Math.sin(time + h.phase)) * 0.2;
+            });
+
+            pulses.forEach(p => {
+                p.update(time);
+                const color = p.hair.mesh.material.color;
+                p.mesh.material.color.copy(color);
+                p.light.color.copy(color);
+                p.binaryGroup.children.forEach(s => s.material.color.copy(color));
+            });
+
+            controls.update(); 
+            scene.rotation.y += 0.0001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
