@@ -1,338 +1,161 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nizy IA - O Domínio de Kayzen</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mente de IA 3D - Fluxo Contínuo</title>
     <style>
-        :root {
-            --gold: #FFD700;
-            --dark-gold: #DAA520;
-            --dark-bg: #050505;
-            --glass-bg: rgba(5, 5, 5, 0.85);
-            --glass-border: rgba(255, 215, 0, 0.15);
-        }
-
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            background-color: #020202;
+            overflow: hidden;
+            color: #00ffff;
             font-family: 'Courier New', Courier, monospace;
-            -webkit-tap-highlight-color: transparent;
         }
-
-        body {
-            background-color: var(--dark-bg);
-            color: #fff;
-            height: 100dvh; /* Altura dinâmica para Android */
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .gold-dust-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(218, 165, 32, 0.15), transparent 30%),
-                radial-gradient(circle at 85% 20%, rgba(255, 215, 0, 0.1), transparent 35%),
-                radial-gradient(circle at 50% 80%, rgba(218, 165, 32, 0.12), transparent 40%);
-            animation: pulseBg 6s infinite alternate;
-        }
-
-        .particles-1 {
-            position: absolute;
-            top: -50px; left: -50px; width: calc(100% + 100px); height: calc(100% + 100px);
-            pointer-events: none;
-            z-index: 1;
-            background-image: radial-gradient(var(--gold) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.4;
-            animation: drift1 20s linear infinite;
-        }
-
-        .particles-2 {
-            position: absolute;
-            top: -50px; left: -50px; width: calc(100% + 100px); height: calc(100% + 100px);
-            pointer-events: none;
-            z-index: 1;
-            background-image: radial-gradient(var(--dark-gold) 2px, transparent 2px);
-            background-size: 85px 85px;
-            opacity: 0.2;
-            animation: drift2 35s linear infinite;
-        }
-
-        @keyframes pulseBg {
-            0% { opacity: 0.7; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.05); }
-        }
-
-        @keyframes drift1 {
-            0% { transform: translateY(0) translateX(0); }
-            100% { transform: translateY(-40px) translateX(40px); }
-        }
-
-        @keyframes drift2 {
-            0% { transform: translateY(0) translateX(0); }
-            100% { transform: translateY(-85px) translateX(-30px); }
-        }
-
-        .chat-container {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-        }
-
-        .chat-header {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.6);
-            flex-shrink: 0;
-        }
-
-        .chat-header h1 {
-            font-size: 1.3rem;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .chat-header p {
-            font-size: 0.75rem;
-            color: #ccc;
-            margin-top: 3px;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--dark-gold) transparent;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background-color: var(--dark-gold);
-            border-radius: 10px;
-        }
-
-        .message {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease-out;
-            word-wrap: break-word;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.nizy {
-            align-self: flex-start;
-            background: rgba(218, 165, 32, 0.15);
-            border-left: 3px solid var(--dark-gold);
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.05);
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background: rgba(255, 215, 0, 0.1);
-            border-right: 3px solid var(--gold);
-            text-align: left;
-        }
-
-        .chat-input {
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.8);
-            border-top: 1px solid var(--glass-border);
-            display: flex;
-            gap: 10px;
-            flex-shrink: 0;
-        }
-
-        .chat-input input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 12px 15px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px; /* Essencial para evitar zoom no iOS/Android */
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .chat-input input:focus {
-            border-color: var(--gold);
-        }
-
-        .chat-input button {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .chat-input button:active {
-            background: var(--gold);
-            color: #000;
-        }
-
-        .typing-indicator {
-            font-size: 0.8rem;
-            color: var(--dark-gold);
-            font-style: italic;
-            background: none !important;
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0 5px !important;
+        canvas {
+            display: block;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </head>
 <body>
 
-    <div class="gold-dust-bg"></div>
-    <div class="particles-1"></div>
-    <div class="particles-2"></div>
-
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>Nizy IA</h1>
-            <p><i class="fas fa-microchip"></i> Assistente Oficial de Kayzen</p>
-        </div>
-        
-        <div class="chat-messages" id="chatMessages">
-            <div class="message nizy">
-                Olá! Sou a Nizy, assistente do Kayzen. Como posso te ajudar hoje?
-            </div>
-        </div>
-        
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Mensagem..." autocomplete="off">
-            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
     <script>
-        const GROQ_API_KEY = "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";
-        const API_URL = "https://api.groq.com/openai/v1/chat/completions";
+        // 1. CONFIGURAÇÃO DO CENÁRIO
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020202, 0.015);
 
-        const systemPrompt = `Você é a Nizy, a assistente oficial e inteligência artificial do Kayzen.
-Kayzen é um desenvolvedor excepcional, domina a web e a programação (Front-end, Back-end, IA, Mobile e Segurança), mas atua sempre de forma 100% ética e dentro da lei.
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
 
-Regras de comportamento:
-1. SEJA BREVE E DIRETA: Fale muito pouco. Suas respostas devem ter no máximo 1 a 3 frases curtas.
-2. SEJA NATURAL: Aja como uma assistente moderna e humana. Evite parecer um robô.
-3. SEM LISTAS LONGAS: Resuma tudo.
-4. SUTIL E ELEGANTE: O tom deve ser profissional e sofisticado.`;
+        // 2. ARQUITETURA
+        const networkArchitecture = [5, 8, 8, 3];
+        const layers = [];
+        const distanceBetweenLayers = 45;
+        const spread = 28;
 
-        let chatHistory = [{ role: "system", content: systemPrompt }];
+        const neuronMatNormal = new THREE.MeshBasicMaterial({ color: 0x004455, transparent: true, opacity: 0.4 });
+        const neuronMatActive = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+        const synapseMatNormal = new THREE.LineBasicMaterial({ color: 0x002233, transparent: true, opacity: 0.2 });
+        const dataPointMat = new THREE.PointsMaterial({ color: 0x0088aa, size: 0.4, transparent: true, opacity: 0.5 });
 
-        const chatMessages = document.getElementById("chatMessages");
-        const userInput = document.getElementById("userInput");
-        const sendBtn = document.getElementById("sendBtn");
-
-        function addMessage(text, sender) {
-            const msgDiv = document.createElement("div");
-            msgDiv.classList.add("message", sender);
-            msgDiv.innerText = text;
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+        const neuronGeometry = new THREE.SphereGeometry(1.2, 16, 16);
+        
+        for (let i = 0; i < networkArchitecture.length; i++) {
+            let neuronsInLayer = [];
+            const xPos = (i - (networkArchitecture.length - 1) / 2) * distanceBetweenLayers;
+            for (let j = 0; j < networkArchitecture[i]; j++) {
+                const mesh = new THREE.Mesh(neuronGeometry, neuronMatNormal);
+                mesh.position.set(xPos, (Math.random() - 0.5) * spread * 1.5, (Math.random() - 0.5) * spread * 1.5);
+                scene.add(mesh);
+                neuronsInLayer.push(mesh);
+            }
+            layers.push(neuronsInLayer);
         }
 
-        async function sendMessage() {
-            const text = userInput.value.trim();
-            if (!text) return;
+        // Fios e pontos fixos
+        const dataPointsPositions = [];
+        for (let i = 0; i < layers.length - 1; i++) {
+            for (let n1 of layers[i]) {
+                for (let n2 of layers[i+1]) {
+                    const geometry = new THREE.BufferGeometry().setFromPoints([n1.position, n2.position]);
+                    scene.add(new THREE.Line(geometry, synapseMatNormal));
+                    
+                    const dist = n1.position.distanceTo(n2.position);
+                    const numPoints = Math.floor(dist / 5);
+                    for(let p = 1; p < numPoints; p++) {
+                        const pointPos = new THREE.Vector3().lerpVectors(n1.position, n2.position, p / numPoints);
+                        dataPointsPositions.push(pointPos.x + (Math.random()-0.5), pointPos.y + (Math.random()-0.5), pointPos.z + (Math.random()-0.5));
+                    }
+                }
+            }
+        }
+        const dpGeo = new THREE.BufferGeometry();
+        dpGeo.setAttribute('position', new THREE.Float32BufferAttribute(dataPointsPositions, 3));
+        scene.add(new THREE.Points(dpGeo, dataPointMat));
 
-            addMessage(text, "user");
-            chatHistory.push({ role: "user", content: text });
-            userInput.value = "";
+        // 3. SISTEMA DE MÚLTIPLOS PULSOS (7 PONTOS)
+        const pulses = [];
+        const numSimultaneousPulses = 7;
 
-            const typingMsg = document.createElement("div");
-            typingMsg.classList.add("message", "nizy", "typing-indicator");
-            typingMsg.innerText = "Nizy está digitando...";
-            chatMessages.appendChild(typingMsg);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+        class Pulse {
+            constructor() {
+                this.mesh = new THREE.Mesh(new THREE.SphereGeometry(0.8, 16, 16), new THREE.MeshBasicMaterial({ color: 0x00ffff }));
+                this.light = new THREE.PointLight(0x00ffff, 1.5, 20);
+                this.mesh.add(this.light);
+                scene.add(this.mesh);
+                this.reset();
+            }
 
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${GROQ_API_KEY}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
-                        messages: chatHistory,
-                        temperature: 0.7,
-                        max_tokens: 500
-                    })
-                });
+            reset() {
+                const path = [];
+                let currentNode = layers[0][Math.floor(Math.random() * layers[0].length)];
+                path.push(currentNode);
+                for (let i = 1; i < layers.length; i++) {
+                    currentNode = layers[i][Math.floor(Math.random() * layers[i].length)];
+                    path.push(currentNode);
+                }
+                this.curve = new THREE.CatmullRomCurve3(path.map(n => n.position));
+                this.progress = 0;
+                this.speed = 0.002 + Math.random() * 0.003;
+                this.activeNodes = path;
+            }
 
-                if (typingMsg.parentNode) chatMessages.removeChild(typingMsg);
-
-                if (!response.ok) throw new Error("Erro API");
-
-                const data = await response.json();
-                const aiResponse = data.choices[0].message.content;
-
-                addMessage(aiResponse, "nizy");
-                chatHistory.push({ role: "assistant", content: aiResponse });
-
-            } catch (error) {
-                if (typingMsg.parentNode) chatMessages.removeChild(typingMsg);
-                addMessage("Ocorreu um erro. Mas o Kayzen resolveria isso num piscar de olhos.", "nizy");
+            update() {
+                this.progress += this.speed;
+                if (this.progress >= 1) {
+                    this.reset();
+                } else {
+                    const pos = this.curve.getPointAt(this.progress);
+                    this.mesh.position.copy(pos);
+                }
             }
         }
 
-        sendBtn.addEventListener("click", sendMessage);
-        userInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") sendMessage();
+        for (let i = 0; i < numSimultaneousPulses; i++) {
+            pulses.push(new Pulse());
+        }
+
+        // Câmera
+        camera.position.set(-60, 30, 60);
+        let targetPulseIndex = 0;
+
+        // Troca o foco da câmera entre os 7 pulsos periodicamente
+        setInterval(() => {
+            targetPulseIndex = Math.floor(Math.random() * numSimultaneousPulses);
+        }, 4000);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            pulses.forEach(p => p.update());
+
+            // A câmera segue o pulso alvo atual
+            const activePulse = pulses[targetPulseIndex];
+            const currentPos = activePulse.mesh.position;
+            const tangent = activePulse.curve.getTangentAt(activePulse.progress).normalize();
+            
+            const cameraOffset = new THREE.Vector3(-tangent.x * 20, 8, -tangent.z * 20);
+            const targetCamPos = currentPos.clone().add(cameraOffset);
+            
+            camera.position.lerp(targetCamPos, 0.05);
+            camera.lookAt(currentPos);
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Correção para mobile: Ajusta o scroll quando o teclado aparece
-        window.visualViewport.addEventListener('resize', () => {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        });
+        animate();
     </script>
 </body>
 </html>
